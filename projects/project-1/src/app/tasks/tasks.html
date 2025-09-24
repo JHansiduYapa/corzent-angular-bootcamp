@@ -7,6 +7,10 @@
     </header>
 
     <ul>
-        
+        @for (task of selectedTasks; track task.id){
+        <li>
+            <app-task [task]="task" (complete)="onCompleteTask(task.id)"></app-task>
+        </li>
+        }
     </ul>
 </section>

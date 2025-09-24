@@ -3,11 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { Header } from './header/header';
 import { User } from "./user/user";
 import { DUMMY_USERS } from './dummy-users';
-import { Task } from "./task/task"; 
+import { Tasks } from "./tasks/tasks"; 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Header, User, Task],
+  imports: [RouterOutlet, Header, User, Tasks],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
