@@ -1,10 +1,14 @@
 import { Component, input } from '@angular/core';
 import { Task } from "./task/task";
+import { INewTask } from "./task/task.model"
+import { NewTask } from './new-task/new-task';
+import { TaskService } from './task.service';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [Task],
+  imports: [Task, NewTask],
+  providers: [TaskService],
   templateUrl: './tasks.html',
   styleUrls: ['./tasks.css']
 })
@@ -12,6 +16,17 @@ export class Tasks {
   // get the input of the selected user name
   userId = input.required<string>();
   name = input.required<string>();
+  isAddingTask = false;
+
+  // make a constructor to inject the TaskService
+  constructor(private taskService: TaskService) {
+    // add tasks to the local storage
+    const tasks = localStorage.getItem('tasks');
+    if (tasks) {
+      this.taskService.tasks = JSON.parse(tasks);
+    }
+
+  }
   
   // add dummy tasks array with id, userId,title, summery, duedate
   tasks = [
@@ -23,12 +38,34 @@ export class Tasks {
 
   // get tasks for the selected user
   get selectedTasks() {
-    return this.tasks.filter(task => task.userId === this.userId());
+    return this.taskService.getTasksForUser(this.userId());
   }
 
   // method to remove task from the tasks array when complete button is clicked
   onCompleteTask(taskId: string): void {
-    this.tasks = this.tasks.filter(task => task.id !== taskId);
+    this.taskService.completeTask(taskId);
   }
 
+  // method to show the new task form
+  addTask(): void {
+    this.isAddingTask = true;
+  }
+
+  // method to add the new task to the tasks array
+  onAddNewTask(newTask: INewTask): void {
+    this.taskService.addTask(newTask, this.userId());
+    this.isAddingTask = false;
+    this.saveTasks();
+  } 
+
+  // cancel adding a new task
+  onCancelAddTask(): void {
+    this.isAddingTask = false;
+    this.saveTasks(); 
+  }
+
+  // save tasks to the local storage 
+  private saveTasks(){
+    localStorage.setItem('tasks', JSON.stringify(this.taskService.tasks));
+  }
 }
