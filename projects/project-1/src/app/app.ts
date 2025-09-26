@@ -13,7 +13,7 @@ import { Tasks } from "./tasks/tasks";
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('project-1');
+  protected readonly title = signal('project');
   users = DUMMY_USERS;
   //selectedUserId = 'u1'; // Default selected user ID
   // selected user can be undefined initially
