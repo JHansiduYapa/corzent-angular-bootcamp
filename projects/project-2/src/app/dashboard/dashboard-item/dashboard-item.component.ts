@@ -5,7 +5,11 @@ import { Component, Input } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './dashboard-item.component.html',
-  styleUrl: './dashboard-item.component.css'
+  styleUrl: './dashboard-item.component.css',
+  // host:{
+  //   class:'dashboard-item'
+  // }
+
 })
 export class DashboardItemComponent {
   // we have to give the inputs to this component from outside
